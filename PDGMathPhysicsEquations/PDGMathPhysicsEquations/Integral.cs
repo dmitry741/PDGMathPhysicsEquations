@@ -13,6 +13,9 @@ namespace PDGMathPhysicsEquations
     /// <returns>Значение функции.</returns>
     public delegate double Function(double x);
 
+    /// <summary>
+    /// Класс для вычисления определенного интеграла.
+    /// </summary>
     public class Integral
     {
         /// <summary>
