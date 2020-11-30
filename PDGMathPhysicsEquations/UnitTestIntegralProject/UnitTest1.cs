@@ -15,5 +15,13 @@ namespace UnitTestIntegralProject
             double S = PDGMathPhysicsEquations.Integral.Get(x => x * x, 0, 2);
             Assert.IsTrue(Math.Abs(S - 8.0 / 3) < Epsilon);
         }
+
+        [TestMethod]
+        [Description("Тестируем интеграл от y=sin(x) отрезке от -pi/2 до pi/2.")]
+        public void TestMethod2()
+        {
+            double S = PDGMathPhysicsEquations.Integral.Get(x => Math.Sin(x), 0, Math.PI);
+            Assert.IsTrue(Math.Abs(S - 2) < Epsilon);
+        }
     }
 }
