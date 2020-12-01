@@ -9,22 +9,22 @@ namespace MathPhysicsEq
 {
     public class WaveEquation : AbstractMathPhysicsEquation
     {
-        double _k;
+        double _k, _L;
 
         public WaveEquation(double l)
         {
-            L = l;
+            _L = l;
         }
 
         private double AkUnderIntegralExpression(double x)
         {
-            return f(x) * Math.Sin(_k * Math.PI * x / L);
+            return f(x) * Math.Sin(_k * Math.PI * x / _L);
         }
 
         private double Ak(double k)
         {
             _k = k;
-            return 2 / L * Integral.Get(AkUnderIntegralExpression, 0, L);
+            return 2 / _L * Integral.Get(AkUnderIntegralExpression, 0, _L);
         }
 
         public override double U(double x, double t)
@@ -35,12 +35,10 @@ namespace MathPhysicsEq
 
             for (int k = 1; k <= N; k++)
             {
-                u += Ak(k) * Math.Cos(k * pi * A * t / L) * Math.Sin(k * pi * x / L);
+                u += Ak(k) * Math.Cos(k * pi * A * t / _L) * Math.Sin(k * pi * x / _L);
             }
 
             return u;
         }
-
-        public double L { get; set; }
     }
 }
