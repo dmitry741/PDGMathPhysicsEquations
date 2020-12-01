@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTestIntegralProject
 {
     [TestClass]
-    public class UnitTest1
+    public class UnitTestIntegral
     {
         double Epsilon => 0.001;
 

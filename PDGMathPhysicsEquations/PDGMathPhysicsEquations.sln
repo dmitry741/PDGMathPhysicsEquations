@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDGMathPhysicsEquations", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestIntegralProject", "UnitTestIntegralProject\UnitTestIntegralProject.csproj", "{0A349BA5-A0E1-4D40-ABFD-0A0B8C754417}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathPhysicsEq", "MathPhysicsEq\MathPhysicsEq.csproj", "{5E0DB975-E0FB-4501-970C-73B04FF5CA55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0A349BA5-A0E1-4D40-ABFD-0A0B8C754417}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A349BA5-A0E1-4D40-ABFD-0A0B8C754417}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A349BA5-A0E1-4D40-ABFD-0A0B8C754417}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E0DB975-E0FB-4501-970C-73B04FF5CA55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E0DB975-E0FB-4501-970C-73B04FF5CA55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E0DB975-E0FB-4501-970C-73B04FF5CA55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E0DB975-E0FB-4501-970C-73B04FF5CA55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
