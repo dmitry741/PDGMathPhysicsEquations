@@ -40,5 +40,7 @@ namespace MathPhysicsEq
 
             return u;
         }
+
+        public double L => _L;
     }
 }
