@@ -84,6 +84,10 @@
       <Project>{5e0db975-e0fb-4501-970c-73b04ff5ca55}</Project>
       <Name>MathPhysicsEq</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PDGMathPhysicsEquations\PDGMathPhysicsEquations.csproj">
+      <Project>{b36f4c0d-55f8-4435-a243-d78bf985d025}</Project>
+      <Name>PDGMathPhysicsEquations</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -25,16 +25,33 @@ namespace WinWaveEquation
         RectangleF _chartBoundRect;
         double _curTime;
 
-        WaveEquation _waveEquation = new WaveEquation(4);
+        WaveEquation _waveEquation;
+        IEnumerable<PointF> _wave = null;
 
         #endregion
 
         #region === private methods ===
 
-        /*double Trapeze(double L)
+        double Trapeze(double x)
         {
+            double pie = _waveEquation.L / 20.0;
+            double r = 0;
 
-        }*/
+            if (8 * pie < x && x <= 9 * pie)
+            {
+                r = x - 8 * pie;
+            }
+            else if (9 * pie < x && x <= 11 * pie)
+            {
+                r = pie;
+            }
+            else if (11 * pie < x && x <= 12 * pie)
+            {
+                r = 12 * pie - x;
+            }
+
+            return r;
+        }
 
         PointF ConvertToWin(PointF point, float ymin, float ymax)
         {
@@ -57,14 +74,18 @@ namespace WinWaveEquation
                 temps.Add(new PointF(x, y));
             }
 
-            float ymin = temps.Min(point => point.Y);
-            float ymax = temps.Max(point => point.Y);
+            //float ymin = temps.Min(point => point.Y);
+            //float ymax = temps.Max(point => point.Y);
+            float max = Convert.ToSingle(_waveEquation.L / 20.0); // Math.Max(Math.Abs(ymin), Math.Abs(ymax));
 
-            return temps.Select(point => ConvertToWin(point, ymin, ymax));
+            return temps.Select(point => ConvertToWin(point, -max, max));
         }
 
         void RenderWave(Graphics g, IEnumerable<PointF> points)
         {
+            if (_wave == null)
+                return;
+
             Pen pen = new Pen(Color.DarkBlue, 2.0f);
             g.DrawLines(pen, points.ToArray());
         }
@@ -81,11 +102,8 @@ namespace WinWaveEquation
             // очищаем контекст.
             g.Clear(Color.White);
 
-            // получаем волну
-            var wave = GetWave(_curTime);
-
             // рисуем волну
-            RenderWave(g, wave);
+            RenderWave(g, _wave);
 
             // отрисовка.
             pictureBox1.Image = _bitmap;
@@ -98,10 +116,19 @@ namespace WinWaveEquation
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
             int cShiftX = 20;
-            int cShiftY = 40;
+            int cShiftY = 80;
             _chartBoundRect = new RectangleF(cShiftX, cShiftY, pictureBox1.Width - 2 * cShiftX, pictureBox1.Height - 2 * cShiftY);
 
             _curTime = 0;
+
+            _waveEquation = new WaveEquation(2)
+            {
+                A = 1,
+                f = Trapeze
+            };
+
+            // получаем волну
+            _wave = GetWave(_curTime);
 
             // создаем таймер
             _timer = new Timer
@@ -124,6 +151,13 @@ namespace WinWaveEquation
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
+            Render();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            _curTime += 0.1;
+            _wave = GetWave(_curTime);
             Render();
         }
     }
