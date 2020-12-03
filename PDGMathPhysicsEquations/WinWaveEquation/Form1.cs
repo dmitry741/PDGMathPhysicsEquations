@@ -28,13 +28,16 @@ namespace WinWaveEquation
         WaveEquation _waveEquation;
         IEnumerable<PointF> _wave = null;
 
+        FunctionProperties _functionProperties;
+
         #endregion
 
         #region === private methods ===
 
         double Trapeze(double x)
         {
-            double pie = _waveEquation.L / 20.0;
+            double L = 2;
+            double pie = L / 20.0;
             double r = 0;
 
             if (8 * pie < x && x <= 9 * pie)
@@ -74,9 +77,7 @@ namespace WinWaveEquation
                 temps.Add(new PointF(x, y));
             }
 
-            //float ymin = temps.Min(point => point.Y);
-            //float ymax = temps.Max(point => point.Y);
-            float max = Convert.ToSingle(_waveEquation.L / 20.0); // Math.Max(Math.Abs(ymin), Math.Abs(ymax));
+            float max = Convert.ToSingle(_functionProperties.Ymax);
 
             return temps.Select(point => ConvertToWin(point, -max, max));
         }
@@ -121,10 +122,12 @@ namespace WinWaveEquation
 
             _curTime = 0;
 
-            _waveEquation = new WaveEquation(2)
+            _functionProperties = new FunctionProperties(Trapeze, 2);
+
+            _waveEquation = new WaveEquation(2, _functionProperties.A, _functionProperties.B)
             {
                 A = 1,
-                f = Trapeze
+                f = _functionProperties.f
             };
 
             // получаем волну

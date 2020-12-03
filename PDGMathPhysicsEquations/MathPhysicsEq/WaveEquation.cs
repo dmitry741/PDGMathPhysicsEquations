@@ -9,11 +9,13 @@ namespace MathPhysicsEq
 {
     public class WaveEquation : AbstractMathPhysicsEquation
     {
-        double _k, _L;
+        double _k, _L, _a, _b;
 
-        public WaveEquation(double l)
+        public WaveEquation(double l, double a, double b)
         {
             _L = l;
+            _a = a;
+            _b = b;
         }
 
         private double AkUnderIntegralExpression(double x)
@@ -24,7 +26,7 @@ namespace MathPhysicsEq
         private double Ak(double k)
         {
             _k = k;
-            return 2 / _L * Integral.Get(AkUnderIntegralExpression, 0, _L);
+            return 2 / _L * Integral.Get(AkUnderIntegralExpression, _a, _b);
         }
 
         public override double U(double x, double t)
