@@ -29,6 +29,7 @@ namespace WinWaveEquation
         IEnumerable<PointF> _wave = null;
 
         FunctionProperties _functionProperties;
+        const double _cL = 2.0;
 
         #endregion
 
@@ -36,8 +37,7 @@ namespace WinWaveEquation
 
         double Trapeze(double x)
         {
-            double L = 2;
-            double pie = L / 20.0;
+            double pie = _cL / 20.0;
             double r = 0;
 
             if (8 * pie < x && x <= 9 * pie)
@@ -58,7 +58,7 @@ namespace WinWaveEquation
 
         PointF ConvertToWin(PointF point, float ymin, float ymax)
         {
-            float x = Convert.ToSingle(_chartBoundRect.Width / _waveEquation.L * point.X + _chartBoundRect.X);
+            float x = Convert.ToSingle(_chartBoundRect.Width / _cL * point.X + _chartBoundRect.X);
             float y = Convert.ToSingle(_chartBoundRect.Height / (ymin - ymax) * (point.Y - ymax) + _chartBoundRect.Y);
 
             return new PointF(x, y);
@@ -71,7 +71,7 @@ namespace WinWaveEquation
 
             for (int i = 0; i <= N; i++)
             {
-                float x = Convert.ToSingle(_waveEquation.L / N * i);
+                float x = Convert.ToSingle(_cL / N * i);
                 float y = Convert.ToSingle(_waveEquation.U(x, time));
 
                 temps.Add(new PointF(x, y));
@@ -122,9 +122,9 @@ namespace WinWaveEquation
 
             _curTime = 0;
 
-            _functionProperties = new FunctionProperties(Trapeze, 2);
+            _functionProperties = new FunctionProperties(Trapeze, _cL);
 
-            _waveEquation = new WaveEquation(2, _functionProperties.A, _functionProperties.B)
+            _waveEquation = new WaveEquation(_cL, _functionProperties.A, _functionProperties.B)
             {
                 A = 1,
                 f = _functionProperties.f
@@ -159,7 +159,7 @@ namespace WinWaveEquation
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _curTime += 0.1;
+            _curTime += 0.05;
             _wave = GetWave(_curTime);
             Render();
         }
