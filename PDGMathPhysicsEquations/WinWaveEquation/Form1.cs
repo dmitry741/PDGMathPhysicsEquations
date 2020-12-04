@@ -28,7 +28,6 @@ namespace WinWaveEquation
         WaveEquation _waveEquation;
         IEnumerable<PointF> _wave = null;
 
-        FunctionProperties _functionProperties;
         const double _cL = 2.0;
 
         #endregion
@@ -56,6 +55,19 @@ namespace WinWaveEquation
             return r;
         }
 
+        void FillFunctionPropertiesCombo()
+        {
+            FunctionProperties functionProperties;
+
+            comboBox1.BeginUpdate();
+
+            functionProperties = new FunctionProperties(Trapeze, _cL, "Трапеция");
+            comboBox1.Items.Add(functionProperties);
+
+            comboBox1.SelectedIndex = 0;
+            comboBox1.EndUpdate();
+        }
+
         PointF ConvertToWin(PointF point, float ymin, float ymax)
         {
             float x = Convert.ToSingle(_chartBoundRect.Width / _cL * point.X + _chartBoundRect.X);
@@ -64,7 +76,7 @@ namespace WinWaveEquation
             return new PointF(x, y);
         }
 
-        IEnumerable<PointF> GetWave(double time)
+        IEnumerable<PointF> GetWave(double time, FunctionProperties functionProperties)
         {
             List<PointF> temps = new List<PointF>();
             int N = Convert.ToInt32(_chartBoundRect.Width / 2);
@@ -77,7 +89,7 @@ namespace WinWaveEquation
                 temps.Add(new PointF(x, y));
             }
 
-            float max = Convert.ToSingle(_functionProperties.Ymax);
+            float max = Convert.ToSingle(functionProperties.Ymax);
 
             return temps.Select(point => ConvertToWin(point, -max, max));
         }
@@ -114,6 +126,7 @@ namespace WinWaveEquation
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            FillFunctionPropertiesCombo();
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
             int cShiftX = 20;
@@ -122,16 +135,16 @@ namespace WinWaveEquation
 
             _curTime = 0;
 
-            _functionProperties = new FunctionProperties(Trapeze, _cL);
+            FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
 
-            _waveEquation = new WaveEquation(_cL, _functionProperties.A, _functionProperties.B)
+            _waveEquation = new WaveEquation(_cL, fp.A, fp.B)
             {
                 A = 1,
-                f = _functionProperties.f
+                f = fp.f
             };
 
             // получаем волну
-            _wave = GetWave(_curTime);
+            _wave = GetWave(_curTime, fp);
 
             // создаем таймер
             _timer = new Timer
@@ -160,7 +173,8 @@ namespace WinWaveEquation
         private void button1_Click(object sender, EventArgs e)
         {
             _curTime += 0.05;
-            _wave = GetWave(_curTime);
+            FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
+            _wave = GetWave(_curTime, fp);
             Render();
         }
     }

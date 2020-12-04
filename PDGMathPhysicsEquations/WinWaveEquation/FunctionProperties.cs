@@ -11,10 +11,12 @@ namespace WinWaveEquation
     {
         Function _f;
         double _a, _b;
+        string _functionDescription;
 
-        public FunctionProperties(Function f, double L)
+        public FunctionProperties(Function f, double L, string functionDescription)
         {
             _f = f;
+            _functionDescription = functionDescription;
 
             const int N = 1000;
             double max = 0;
@@ -64,5 +66,10 @@ namespace WinWaveEquation
         public double B => _b;
 
         public double Ymax { get; private set; }
+
+        public override string ToString()
+        {
+            return _functionDescription;
+        }
     }
 }
