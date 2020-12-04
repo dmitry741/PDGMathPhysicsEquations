@@ -25,11 +25,11 @@ namespace WinWaveEquation
         RectangleF _chartBoundRect;
         double _curTime;
 
-        WaveEquation _waveEquation;
+        AbstractMathPhysicsEquation _waveEquation;
         IEnumerable<PointF> _wave = null;
 
         const double _cL = 2.0;
-        const double _cTimeStep = 0.05;
+        const double _cTimeStep = 0.025;
 
         #endregion
 
