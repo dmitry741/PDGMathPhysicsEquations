@@ -29,6 +29,7 @@ namespace WinWaveEquation
         IEnumerable<PointF> _wave = null;
 
         const double _cL = 2.0;
+        const double _cTimeStep = 0.05;
 
         #endregion
 
@@ -55,6 +56,35 @@ namespace WinWaveEquation
             return r;
         }
 
+        double Zigzag(double x)
+        {
+            double pie = _cL / 20.0;
+            double r = 0;
+
+            if (7 * pie < x && x <= 8 * pie)
+            {
+                r = x - 7 * pie;
+            }
+            else if (8 * pie < x && x <= 9 * pie)
+            {
+                r = pie;
+            }
+            else if (9 * pie < x && x <= 11 * pie)
+            {
+                r = 10 * pie - x;
+            }
+            else if (11 * pie < x && x <= 12 * pie)
+            {
+                r = -pie;
+            }
+            else if (12 * pie < x && x <= 13 * pie)
+            {
+                r = x - 13 * pie;
+            }
+
+            return r;
+        }
+
         void FillFunctionPropertiesCombo()
         {
             FunctionProperties functionProperties;
@@ -62,6 +92,9 @@ namespace WinWaveEquation
             comboBox1.BeginUpdate();
 
             functionProperties = new FunctionProperties(Trapeze, _cL, "Трапеция");
+            comboBox1.Items.Add(functionProperties);
+
+            functionProperties = new FunctionProperties(Zigzag, _cL, "Зигзаг");
             comboBox1.Items.Add(functionProperties);
 
             comboBox1.SelectedIndex = 0;
@@ -172,8 +205,26 @@ namespace WinWaveEquation
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _curTime += 0.05;
+            _curTime += _cTimeStep;
             FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
+            _wave = GetWave(_curTime, fp);
+            Render();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_waveEquation == null)
+                return;
+
+            _curTime = 0;
+            FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
+
+            _waveEquation = new WaveEquation(_cL, fp.A, fp.B)
+            {
+                A = 1,
+                f = fp.f
+            };
+
             _wave = GetWave(_curTime, fp);
             Render();
         }
