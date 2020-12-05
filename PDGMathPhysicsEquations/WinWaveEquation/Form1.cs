@@ -25,7 +25,7 @@ namespace WinWaveEquation
         RectangleF _chartBoundRect;
         double _curTime;
 
-        AbstractMathPhysicsEquation _waveEquation;
+        WaveEquation _waveEquation;
         IEnumerable<PointF> _wave = null;
 
         const double _cL = 2.0;
@@ -170,11 +170,7 @@ namespace WinWaveEquation
 
             FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
 
-            _waveEquation = new WaveEquation(_cL, fp.A, fp.B)
-            {
-                A = 1,
-                f = fp.f
-            };
+            _waveEquation = new WaveEquation(fp.f, 1, _cL, fp.Low, fp.High);
 
             // получаем волну
             _wave = GetWave(_curTime, fp);
@@ -219,13 +215,9 @@ namespace WinWaveEquation
             _curTime = 0;
             FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
 
-            _waveEquation = new WaveEquation(_cL, fp.A, fp.B)
-            {
-                A = 1,
-                f = fp.f
-            };
-
+            _waveEquation = new WaveEquation(fp.f, 1, _cL, fp.Low, fp.High);
             _wave = GetWave(_curTime, fp);
+
             Render();
         }
     }

@@ -10,7 +10,7 @@ namespace WinWaveEquation
     class FunctionProperties
     {
         Function _f;
-        double _a, _b;
+        double _low, _high;
         string _functionDescription;
 
         public FunctionProperties(Function f, double L, string functionDescription)
@@ -42,7 +42,7 @@ namespace WinWaveEquation
 
                 if (_f(x) != 0)
                 {
-                    _a = x;
+                    _low = x;
                     break;
                 }
             }
@@ -54,7 +54,7 @@ namespace WinWaveEquation
 
                 if (_f(x) != 0)
                 {
-                    _b = x;
+                    _high = x;
                     break;
                 }
             }            
@@ -62,8 +62,8 @@ namespace WinWaveEquation
 
         public Function f => _f;
 
-        public double A => _a;
-        public double B => _b;
+        public double Low => _low;
+        public double High => _high;
 
         public double Ymax { get; private set; }
 

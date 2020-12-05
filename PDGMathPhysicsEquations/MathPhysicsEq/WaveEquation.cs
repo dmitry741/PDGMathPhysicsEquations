@@ -7,29 +7,32 @@ using PDGMathPhysicsEquations;
 
 namespace MathPhysicsEq
 {
-    public class WaveEquation : AbstractMathPhysicsEquation
+    public class WaveEquation
     {
-        double _k, _L, _a, _b;
+        double _k, _L, _low, _high, _A;
+        Function _f;
 
-        public WaveEquation(double l, double a, double b)
+        public WaveEquation(Function f, double A, double l, double low, double high)
         {
             _L = l;
-            _a = a;
-            _b = b;
+            _low = low;
+            _high = high;
+            _f = f;
+            _A = A;
         }
 
         private double AkUnderIntegralExpression(double x)
         {
-            return f(x) * Math.Sin(_k * Math.PI * x / _L);
+            return _f(x) * Math.Sin(_k * Math.PI * x / _L);
         }
 
         private double Ak(double k)
         {
             _k = k;
-            return 2 / _L * Integral.Get(AkUnderIntegralExpression, _a, _b);
+            return 2 / _L * Integral.Get(AkUnderIntegralExpression, _low, _high);
         }
 
-        public override double U(double x, double t)
+        public double U(double x, double t)
         {
             const int N = 100;
             double u = 0;
@@ -37,7 +40,7 @@ namespace MathPhysicsEq
 
             for (int k = 1; k <= N; k++)
             {
-                u += Ak(k) * Math.Cos(k * pi * A * t / _L) * Math.Sin(k * pi * x / _L);
+                u += Ak(k) * Math.Cos(k * pi * _A * t / _L) * Math.Sin(k * pi * x / _L);
             }
 
             return u;
