@@ -117,7 +117,7 @@ namespace WinWaveEquation
             for (int i = 0; i <= N; i++)
             {
                 float x = Convert.ToSingle(_cL / N * i);
-                float y = Convert.ToSingle(_waveEquation.U(x, time));
+                float y = Convert.ToSingle(_waveEquation.Wave(x, time));
 
                 temps.Add(new PointF(x, y));
             }
@@ -178,7 +178,7 @@ namespace WinWaveEquation
             // создаем таймер
             _timer = new Timer
             {
-                Interval = 100,
+                Interval = 250,
                 Enabled = false
             };
             _timer.Tick += Timer_Tick;
@@ -186,12 +186,16 @@ namespace WinWaveEquation
 
         private void Timer_Tick(object sender, EventArgs e)
         {
+            _curTime += _cTimeStep;
+            FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
+            _wave = GetWave(_curTime, fp);
             Render();
         }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            _timer.Stop();
+            if (_timer.Enabled) 
+                _timer.Stop();
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
@@ -199,7 +203,7 @@ namespace WinWaveEquation
             Render();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void OnNextStep(object sender, EventArgs e)
         {
             _curTime += _cTimeStep;
             FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
@@ -219,6 +223,25 @@ namespace WinWaveEquation
             _wave = GetWave(_curTime, fp);
 
             Render();
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e)
+        {
+            if (_timer.Enabled)
+            {
+                _timer.Stop();
+                btnPlay.Text = "Старт";
+            }
+            else
+            {
+                _timer.Start();
+                btnPlay.Text = "Стоп";
+            }
         }
     }
 }

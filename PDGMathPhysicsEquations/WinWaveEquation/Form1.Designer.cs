@@ -29,8 +29,10 @@
         private void InitializeComponent()
         {
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnNext = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.btnPlay = new System.Windows.Forms.Button();
+            this.btnExit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -42,33 +44,55 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // button1
+            // btnNext
             // 
-            this.button1.Location = new System.Drawing.Point(921, 257);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 30);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Шаг++";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnNext.Location = new System.Drawing.Point(326, 254);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(90, 32);
+            this.btnNext.TabIndex = 1;
+            this.btnNext.Text = "Шаг++";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.OnNextStep);
             // 
             // comboBox1
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(12, 257);
+            this.comboBox1.Location = new System.Drawing.Point(12, 254);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(212, 21);
             this.comboBox1.TabIndex = 2;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
+            // btnPlay
+            // 
+            this.btnPlay.Location = new System.Drawing.Point(230, 254);
+            this.btnPlay.Name = "btnPlay";
+            this.btnPlay.Size = new System.Drawing.Size(90, 32);
+            this.btnPlay.TabIndex = 3;
+            this.btnPlay.Text = "Старт";
+            this.btnPlay.UseVisualStyleBackColor = true;
+            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
+            // 
+            // btnExit
+            // 
+            this.btnExit.Location = new System.Drawing.Point(906, 254);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(90, 32);
+            this.btnExit.TabIndex = 4;
+            this.btnExit.Text = "Выход";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 348);
+            this.ClientSize = new System.Drawing.Size(1008, 305);
+            this.Controls.Add(this.btnExit);
+            this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnNext);
             this.Controls.Add(this.pictureBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -85,8 +109,10 @@
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button btnPlay;
+        private System.Windows.Forms.Button btnExit;
     }
 }
 

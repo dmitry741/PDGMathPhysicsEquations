@@ -32,9 +32,8 @@ namespace MathPhysicsEq
             return 2 / _L * Integral.Get(AkUnderIntegralExpression, _low, _high);
         }
 
-        public double U(double x, double t)
+        public double Wave(double x, double t, int N = 100)
         {
-            const int N = 100;
             double u = 0;
             double pi = Math.PI;
 
