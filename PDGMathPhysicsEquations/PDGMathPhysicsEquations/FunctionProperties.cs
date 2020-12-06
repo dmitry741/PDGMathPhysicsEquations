@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PDGMathPhysicsEquations;
 
-namespace WinWaveEquation
+namespace PDGMathPhysicsEquations
 {
-    class FunctionProperties
+    public class FunctionProperties
     {
         Function _f;
         double _low, _high;
@@ -57,7 +56,7 @@ namespace WinWaveEquation
                     _high = x;
                     break;
                 }
-            }            
+            }
         }
 
         public Function f => _f;

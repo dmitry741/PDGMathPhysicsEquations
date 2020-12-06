@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MathPhysicsEq;
+using PDGMathPhysicsEquations;
 
 namespace WinWaveEquation
 {
@@ -85,6 +86,13 @@ namespace WinWaveEquation
             return r;
         }
 
+        void Next()
+        {
+            _curTime += _cTimeStep;
+            FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
+            _wave = GetWave(_curTime, fp);
+        }
+
         void FillFunctionPropertiesCombo()
         {
             FunctionProperties functionProperties;
@@ -110,16 +118,16 @@ namespace WinWaveEquation
         }
 
         IEnumerable<PointF> GetWave(double time, FunctionProperties functionProperties)
-        {
-            List<PointF> temps = new List<PointF>();
+        {            
             int N = Convert.ToInt32(_chartBoundRect.Width / 2);
+            PointF[] temps = new PointF[N + 1];
 
             for (int i = 0; i <= N; i++)
             {
                 float x = Convert.ToSingle(_cL / N * i);
                 float y = Convert.ToSingle(_waveEquation.Wave(x, time));
 
-                temps.Add(new PointF(x, y));
+                temps[i] = new PointF(x, y);
             }
 
             float max = Convert.ToSingle(functionProperties.Ymax);
@@ -186,9 +194,7 @@ namespace WinWaveEquation
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            _curTime += _cTimeStep;
-            FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
-            _wave = GetWave(_curTime, fp);
+            Next();
             Render();
         }
 
@@ -205,9 +211,7 @@ namespace WinWaveEquation
 
         private void OnNextStep(object sender, EventArgs e)
         {
-            _curTime += _cTimeStep;
-            FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
-            _wave = GetWave(_curTime, fp);
+            Next();
             Render();
         }
 

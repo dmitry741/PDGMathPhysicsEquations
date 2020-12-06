@@ -46,7 +46,7 @@
             // 
             // btnNext
             // 
-            this.btnNext.Location = new System.Drawing.Point(326, 254);
+            this.btnNext.Location = new System.Drawing.Point(326, 257);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(90, 32);
             this.btnNext.TabIndex = 1;
@@ -58,7 +58,7 @@
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(12, 254);
+            this.comboBox1.Location = new System.Drawing.Point(12, 257);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(212, 21);
             this.comboBox1.TabIndex = 2;
@@ -66,7 +66,7 @@
             // 
             // btnPlay
             // 
-            this.btnPlay.Location = new System.Drawing.Point(230, 254);
+            this.btnPlay.Location = new System.Drawing.Point(230, 257);
             this.btnPlay.Name = "btnPlay";
             this.btnPlay.Size = new System.Drawing.Size(90, 32);
             this.btnPlay.TabIndex = 3;
@@ -76,7 +76,7 @@
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(906, 254);
+            this.btnExit.Location = new System.Drawing.Point(906, 257);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(90, 32);
             this.btnExit.TabIndex = 4;
@@ -88,7 +88,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 305);
+            this.ClientSize = new System.Drawing.Size(1008, 293);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnPlay);
             this.Controls.Add(this.comboBox1);
