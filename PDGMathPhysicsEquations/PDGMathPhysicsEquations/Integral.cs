@@ -25,9 +25,9 @@ namespace PDGMathPhysicsEquations
         /// <param name="a">Нижний предел интегрирования.</param>
         /// <param name="b">Верхний предел интегрирования.</param>
         /// <returns>Значение интеграла.</returns>
-        public static double Get(Function f, double a, double b)
+        public static double Get(Function f, double a, double b, int split = 100)
         {
-            double N = (b - a) * 100;
+            double N = (b - a) * split;
             double S = 0;
             double dx = (b - a) / N;
 
@@ -40,6 +40,21 @@ namespace PDGMathPhysicsEquations
             S *= dx;
 
             return S;
+        }
+
+        public static double GetAsync(Function f, double a, double b, int split = 100)
+        {
+            double c = (a + b) / 2;
+
+            var tasks = new List<Task<double>>
+            {
+                Task.Run(() => Get(f, a, c, split)),
+                Task.Run(() => Get(f, c, b, split))
+            };
+            
+            Task.WaitAll(tasks.ToArray());
+
+            return tasks.Sum(x => x.Result);
         }
     }
 }
