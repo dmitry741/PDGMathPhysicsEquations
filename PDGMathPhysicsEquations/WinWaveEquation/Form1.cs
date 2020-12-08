@@ -86,6 +86,31 @@ namespace WinWaveEquation
             return r;
         }
 
+        double TwoWaves(double x)
+        {
+            double pie = _cL / 20.0;
+            double r = 0;
+
+            if (4 * pie < x && x <= 5 * pie)
+            {
+                r = x - 4 * pie;
+            }
+            else if (5 * pie < x && x <= 6 * pie)
+            {
+                r = 6 * pie - x;
+            }
+            else if (14 * pie < x && x <= 15 * pie)
+            {
+                r = 2 * (x - 14 * pie);
+            }
+            else if (15 * pie < x && x <= 16 * pie)
+            {
+                r = 2 * (16 * pie - x);
+            }
+
+            return r;
+        }
+
         void Next()
         {
             _curTime += _cTimeStep;
@@ -103,6 +128,9 @@ namespace WinWaveEquation
             comboBox1.Items.Add(functionProperties);
 
             functionProperties = new FunctionProperties(Zigzag, _cL, "Зигзаг");
+            comboBox1.Items.Add(functionProperties);
+
+            functionProperties = new FunctionProperties(TwoWaves, _cL, "Две волны");
             comboBox1.Items.Add(functionProperties);
 
             comboBox1.SelectedIndex = 0;
