@@ -42,7 +42,7 @@ namespace PDGMathPhysicsEquations
             return S;
         }
 
-        public static double GetAsync(Function f, double a, double b, int split = 100)
+        public static double GetParallel(Function f, double a, double b, int split = 100)
         {
             double c = (a + b) / 2;
 
@@ -55,6 +55,6 @@ namespace PDGMathPhysicsEquations
             Task.WaitAll(tasks.ToArray());
 
             return tasks.Sum(x => x.Result);
-        }
+        }       
     }
 }
