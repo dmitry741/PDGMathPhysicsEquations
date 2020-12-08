@@ -214,7 +214,7 @@ namespace WinWaveEquation
             // создаем таймер
             _timer = new Timer
             {
-                Interval = 250,
+                Interval = 500,
                 Enabled = false
             };
             _timer.Tick += Timer_Tick;

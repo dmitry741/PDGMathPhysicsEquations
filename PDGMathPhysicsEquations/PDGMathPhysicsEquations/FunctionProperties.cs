@@ -8,9 +8,9 @@ namespace PDGMathPhysicsEquations
 {
     public class FunctionProperties
     {
-        Function _f;
-        double _low, _high;
-        string _functionDescription;
+        readonly Function _f;
+        readonly double _low, _high;
+        readonly string _functionDescription;
 
         public FunctionProperties(Function f, double L, string functionDescription)
         {
