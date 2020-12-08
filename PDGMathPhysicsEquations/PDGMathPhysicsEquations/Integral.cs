@@ -24,6 +24,7 @@ namespace PDGMathPhysicsEquations
         /// <param name="f">Функция одной переменной.</param>
         /// <param name="a">Нижний предел интегрирования.</param>
         /// <param name="b">Верхний предел интегрирования.</param>
+        /// <param name="split">Число точек в разбиении.</param>
         /// <returns>Значение интеграла.</returns>
         public static double Get(Function f, double a, double b, int split = 100)
         {
@@ -42,14 +43,22 @@ namespace PDGMathPhysicsEquations
             return S;
         }
 
+        /// <summary>
+        /// Параллельное вычисление определенного интеграла.
+        /// </summary>
+        /// <param name="f">Функция одной переменной.</param>
+        /// <param name="a">Нижний предел интегрирования.</param>
+        /// <param name="b">Верхний предел интегрирования.</param>
+        /// <param name="split">Число точек в разбиении.</param>
+        /// <returns>Значение интеграла.</returns>
         public static double GetParallel(Function f, double a, double b, int split = 100)
         {
             double c = (a + b) / 2;
 
             var tasks = new List<Task<double>>
             {
-                Task.Run(() => Get(f, a, c, split)),
-                Task.Run(() => Get(f, c, b, split))
+                Task.Run(() => Get(f, a, c, split)), // интегрируем от a до c
+                Task.Run(() => Get(f, c, b, split))  // интегрируем от c до b
             };
             
             Task.WaitAll(tasks.ToArray());
