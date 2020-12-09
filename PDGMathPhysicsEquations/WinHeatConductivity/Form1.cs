@@ -97,5 +97,16 @@ namespace WinHeatConductivity
             if (_timer.Enabled)
                 _timer.Stop();
         }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            Next();
+            Render();
+        }
+
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            Render();
+        }
     }
 }
