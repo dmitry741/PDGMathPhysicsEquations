@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathPhysicsEq", "MathPhysic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinWaveEquation", "WinWaveEquation\WinWaveEquation.csproj", "{7245B5F3-7F1D-4661-9EF9-E9D9A0A871DE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinHeatConductivity", "WinHeatConductivity\WinHeatConductivity.csproj", "{1DB1FE2D-8A27-4FA2-8F1A-DFA1F7142772}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{7245B5F3-7F1D-4661-9EF9-E9D9A0A871DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7245B5F3-7F1D-4661-9EF9-E9D9A0A871DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7245B5F3-7F1D-4661-9EF9-E9D9A0A871DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DB1FE2D-8A27-4FA2-8F1A-DFA1F7142772}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DB1FE2D-8A27-4FA2-8F1A-DFA1F7142772}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DB1FE2D-8A27-4FA2-8F1A-DFA1F7142772}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DB1FE2D-8A27-4FA2-8F1A-DFA1F7142772}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
