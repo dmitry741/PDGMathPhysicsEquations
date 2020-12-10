@@ -24,6 +24,9 @@ namespace WinHeatConductivity
         Bitmap _bitmap;
         Timer _timer;
         double _curTime;
+        List<Color> _colors;
+
+        HeatConductivityEquation _heatConductivity;
 
         const double _cL = 2.0;
         const double _cTimeStep = 0.025;
@@ -32,6 +35,20 @@ namespace WinHeatConductivity
 
         #region === private methods ===
 
+        List<Color> CreateHotPalette()
+        {
+            Palette palette = new Palette();
+
+            palette.AddBaseColor(Color.Black);
+            palette.AddBaseColor(Color.DarkBlue);
+            palette.AddBaseColor(Color.Red);
+            palette.AddBaseColor(Color.Yellow);
+
+            palette.CreatePalette();
+
+            return palette.Colors;
+        }
+
         void Next()
         {
             //_curTime += _cTimeStep;
@@ -39,7 +56,6 @@ namespace WinHeatConductivity
 
             // TODO
         }
-
 
         void RenderKernel(Graphics g)
         {
@@ -71,6 +87,9 @@ namespace WinHeatConductivity
         {
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             _curTime = 0;
+
+            // палитра цветов
+            _colors = CreateHotPalette();
 
             // создаем таймер
             _timer = new Timer

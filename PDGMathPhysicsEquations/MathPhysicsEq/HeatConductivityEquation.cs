@@ -7,7 +7,7 @@ using PDGMathPhysicsEquations;
 
 namespace MathPhysicsEq
 {
-    class HeatConductivityEquation
+    public class HeatConductivityEquation
     {
         readonly double _low, _high, _A;
         readonly Function _f;
