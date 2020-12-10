@@ -205,7 +205,6 @@ namespace WinWaveEquation
             _curTime = 0;
 
             FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
-
             _waveEquation = new WaveEquation(fp.f, 1, _cL, fp.Low, fp.High);
 
             // получаем волну

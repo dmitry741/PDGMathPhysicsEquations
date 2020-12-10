@@ -29,11 +29,36 @@ namespace WinHeatConductivity
         HeatConductivityEquation _heatConductivity;
 
         const double _cL = 2.0;
+        const double _cMacTemp = 500;
         const double _cTimeStep = 0.025;
 
         #endregion
 
         #region === private methods ===
+
+        double Plateau(double x)
+        {
+            const double cPlateau = _cL / 10;
+            double r = 0;
+
+            if (-cPlateau < x && x < cPlateau)
+                r = _cMacTemp;
+
+            return r;
+        }
+
+        void FillFunctionPropertiesCombo()
+        {
+            FunctionProperties functionProperties;
+
+            comboBox1.BeginUpdate();
+
+            functionProperties = new FunctionProperties(Plateau, _cL, "Плато");
+            comboBox1.Items.Add(functionProperties);
+
+            comboBox1.SelectedIndex = 0;
+            comboBox1.EndUpdate();
+        }
 
         List<Color> CreateHotPalette()
         {
@@ -85,11 +110,15 @@ namespace WinHeatConductivity
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            FillFunctionPropertiesCombo();
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             _curTime = 0;
 
             // палитра цветов
             _colors = CreateHotPalette();
+
+            FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
+            _heatConductivity = new HeatConductivityEquation(fp.f, fp.Low, fp.High, 1);
 
             // создаем таймер
             _timer = new Timer
