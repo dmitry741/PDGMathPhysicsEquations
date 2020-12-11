@@ -25,6 +25,7 @@ namespace WinHeatConductivity
         Timer _timer;
         double _curTime;
         List<Color> _colors;
+        int[] _indexes;
 
         HeatConductivityEquation _heatConductivity;
 
@@ -53,12 +54,14 @@ namespace WinHeatConductivity
 
             comboBox1.BeginUpdate();
 
-            functionProperties = new FunctionProperties(Plateau, _cL, "Плато");
+            functionProperties = new FunctionProperties(Plateau, -_cL / 2, _cL / 2, "Плато");
             comboBox1.Items.Add(functionProperties);
 
             comboBox1.SelectedIndex = 0;
             comboBox1.EndUpdate();
         }
+
+        int KernelLengtр => pictureBox1.Width - 80;
 
         List<Color> CreateHotPalette()
         {
@@ -76,10 +79,8 @@ namespace WinHeatConductivity
 
         void Next()
         {
-            //_curTime += _cTimeStep;
-            //FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
-
-            // TODO
+            _curTime += _cTimeStep;
+            _indexes = GetColorIndexes(KernelLengtр);
         }
 
         int[] GetColorIndexes(int L)
@@ -123,9 +124,15 @@ namespace WinHeatConductivity
             }
         }
 
-        void RenderKernel(Graphics g)
+        void RenderKernel(Graphics g, List<Color> colors, int[] indexes)
         {
-            // TODO:
+            int xCur = (pictureBox1.Width - KernelLengtр) / 2;
+
+            foreach (int index in indexes)
+            {
+                g.DrawLine(new Pen(colors[index]), xCur, pictureBox1.Height / 2, xCur, pictureBox1.Height / 2 + 24);
+                xCur++;
+            }
         }
 
         void Render()
@@ -144,7 +151,7 @@ namespace WinHeatConductivity
             RenderLegend(g, (pictureBox1.Width - _colors.Count) / 2, 20);
 
             // отрисовка стержня
-            RenderKernel(g);
+            RenderKernel(g, _colors, _indexes);
 
             // отрисовка.
             pictureBox1.Image = _bitmap;
@@ -162,7 +169,8 @@ namespace WinHeatConductivity
             _colors = CreateHotPalette();
 
             FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
-            _heatConductivity = new HeatConductivityEquation(fp.f, fp.Low, fp.High, 1);
+            _heatConductivity = new HeatConductivityEquation(fp.f, fp.Low, fp.High, 0.25);
+            _indexes = GetColorIndexes(KernelLengtр);
 
             // создаем таймер
             _timer = new Timer

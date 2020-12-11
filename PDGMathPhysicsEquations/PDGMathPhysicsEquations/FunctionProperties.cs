@@ -12,7 +12,7 @@ namespace PDGMathPhysicsEquations
         readonly double _low, _high;
         readonly string _functionDescription;
 
-        public FunctionProperties(Function f, double L, string functionDescription)
+        public FunctionProperties(Function f, double a, double b, string functionDescription)
         {
             _f = f;
             _functionDescription = functionDescription;
@@ -23,7 +23,7 @@ namespace PDGMathPhysicsEquations
             // определяем максимальное по модулю значение функции f.
             for (int i = 0; i <= N; i++)
             {
-                double x = L / N * i;
+                double x = (b - a) / N * i + a;
                 double y = Math.Abs(_f(x));
 
                 if (y > max)
@@ -37,7 +37,7 @@ namespace PDGMathPhysicsEquations
             // определяем нижний предел интегрирования
             for (int i = 0; i <= N; i++)
             {
-                double x = L / N * i;
+                double x = (b - a) / N * i + a;
 
                 if (_f(x) != 0)
                 {
@@ -49,7 +49,7 @@ namespace PDGMathPhysicsEquations
             // определяем верхний предел интегрирования
             for (int i = N; i >= 0; i--)
             {
-                double x = L / N * i;
+                double x = (b - a) / N * i + a;
 
                 if (_f(x) != 0)
                 {

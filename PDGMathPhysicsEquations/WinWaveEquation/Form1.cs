@@ -124,13 +124,13 @@ namespace WinWaveEquation
 
             comboBox1.BeginUpdate();
 
-            functionProperties = new FunctionProperties(Trapeze, _cL, "Трапеция");
+            functionProperties = new FunctionProperties(Trapeze, 0, _cL, "Трапеция");
             comboBox1.Items.Add(functionProperties);
 
-            functionProperties = new FunctionProperties(Zigzag, _cL, "Зигзаг");
+            functionProperties = new FunctionProperties(Zigzag, 0, _cL, "Зигзаг");
             comboBox1.Items.Add(functionProperties);
 
-            functionProperties = new FunctionProperties(TwoWaves, _cL, "Две волны");
+            functionProperties = new FunctionProperties(TwoWaves, 0, _cL, "Две волны");
             comboBox1.Items.Add(functionProperties);
 
             comboBox1.SelectedIndex = 0;
