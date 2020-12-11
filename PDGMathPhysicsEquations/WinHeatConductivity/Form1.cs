@@ -82,6 +82,21 @@ namespace WinHeatConductivity
             // TODO
         }
 
+        int[] GetColorIndexes(int L)
+        {
+            int[] indexes = new int[L];
+
+            for (int i = 0; i < indexes.Length; i++)
+            {
+                double x = _cL / (indexes.Length - 1) * i - 1;
+                double u = _heatConductivity.HeatConductivity(x, _curTime);
+
+                indexes[i] = Convert.ToInt32((_colors.Count - 1) / _cMaxTemp * u);
+            }
+
+            return indexes;
+        }
+
         void RenderLegend(Graphics g, int X, int Y)
         {
             const int cHeight = 16;
