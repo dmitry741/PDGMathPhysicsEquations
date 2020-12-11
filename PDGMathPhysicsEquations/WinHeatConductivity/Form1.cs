@@ -31,7 +31,7 @@ namespace WinHeatConductivity
 
         const double _cL = 2.0;
         const double _cMaxTemp = 500;
-        const double _cTimeStep = 0.01;
+        const double _cTimeStep = 0.005;
 
         #endregion
 
@@ -61,14 +61,14 @@ namespace WinHeatConductivity
             comboBox1.EndUpdate();
         }
 
-        int KernelLengtр => pictureBox1.Width - 80;
+        int KernelLength => pictureBox1.Width - 80;
 
         List<Color> CreateHotPalette()
         {
             Palette palette = new Palette();
 
             palette.AddBaseColor(Color.Black);
-            palette.AddBaseColor(Color.DarkBlue);
+            palette.AddBaseColor(Color.DarkRed);
             palette.AddBaseColor(Color.Red);
             palette.AddBaseColor(Color.Yellow);
 
@@ -80,22 +80,28 @@ namespace WinHeatConductivity
         void Next()
         {
             _curTime += _cTimeStep;
-            _indexes = GetColorIndexes(KernelLengtр);
+            ComputeColorIndexes();
         }
 
-        int[] GetColorIndexes(int L)
+        void ComputeColorIndexes()
         {
-            int[] indexes = new int[L];
-
-            for (int i = 0; i < indexes.Length; i++)
+            for (int i = 0; i < _indexes.Length; i++)
             {
-                double x = _cL / (indexes.Length - 1) * i - 1;
+                double x = _cL / (_indexes.Length - 1) * i - 1;
                 double u = _heatConductivity.HeatConductivity(x, _curTime);
 
-                indexes[i] = Convert.ToInt32((_colors.Count - 1) / _cMaxTemp * u);
+                _indexes[i] = Convert.ToInt32((_colors.Count - 1) / _cMaxTemp * u);
             }
+        }
 
-            return indexes;
+        void RenderMarker(Graphics g, float x, float y, string text)
+        {            
+            const int cHeight = 16;
+            Font font = new Font("Arial", 8.0f, FontStyle.Regular);
+            SizeF szf = g.MeasureString(text, font);
+
+            g.DrawLine(Pens.Black, x, y + cHeight + 4, x, y + cHeight + 12);
+            g.DrawString(text, font, Brushes.Black, x - szf.Width / 2, y + cHeight + 14);
         }
 
         void RenderLegend(Graphics g, int X, int Y)
@@ -109,25 +115,21 @@ namespace WinHeatConductivity
                 xCur++;
             }
 
-            int markerCount = 4;
-            Font font = new Font("Arial", 8.0f, FontStyle.Regular);            
+            int markerCount = 4;            
 
             for (int i = 0; i < markerCount; i++)
             {
                 float xf = Convert.ToSingle(_colors.Count * i) / (markerCount - 1) + X;
-                g.DrawLine(Pens.Black, xf, Y + cHeight + 4, xf, Y + cHeight + 12);
+                int t = Convert.ToInt32(Convert.ToSingle(_cMaxTemp) / _colors.Count * (xf - X));
 
-                int  t = Convert.ToInt32(Convert.ToSingle(_cMaxTemp) / _colors.Count * (xf - X));
-                SizeF szf = g.MeasureString(t.ToString(), font);
-
-                g.DrawString(t.ToString(), font, Brushes.Black, xf - szf.Width / 2, Y + cHeight + 14);
+                RenderMarker(g, xf, Y, t.ToString());
             }
         }
 
         void RenderKernel(Graphics g, List<Color> colors, int[] indexes)
         {
             const int cYShift = 20;
-            int xCur = (pictureBox1.Width - KernelLengtр) / 2;
+            int xCur = (pictureBox1.Width - KernelLength) / 2;
 
             foreach (int index in indexes)
             {
@@ -171,7 +173,8 @@ namespace WinHeatConductivity
 
             FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
             _heatConductivity = new HeatConductivityEquation(fp.f, fp.Low, fp.High, 0.25);
-            _indexes = GetColorIndexes(KernelLengtр);
+            _indexes = new int[KernelLength];
+            ComputeColorIndexes();
 
             // создаем таймер
             _timer = new Timer
