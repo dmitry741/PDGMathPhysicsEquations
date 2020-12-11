@@ -96,12 +96,11 @@ namespace WinHeatConductivity
 
         void RenderMarker(Graphics g, float x, float y, string text)
         {            
-            const int cHeight = 16;
             Font font = new Font("Arial", 8.0f, FontStyle.Regular);
             SizeF szf = g.MeasureString(text, font);
 
-            g.DrawLine(Pens.Black, x, y + cHeight + 4, x, y + cHeight + 12);
-            g.DrawString(text, font, Brushes.Black, x - szf.Width / 2, y + cHeight + 14);
+            g.DrawLine(Pens.Black, x, y + 4, x, y + 12);
+            g.DrawString(text, font, Brushes.Black, x - szf.Width / 2, y + 14);
         }
 
         void RenderLegend(Graphics g, int X, int Y)
@@ -122,7 +121,7 @@ namespace WinHeatConductivity
                 float xf = Convert.ToSingle(_colors.Count * i) / (markerCount - 1) + X;
                 int t = Convert.ToInt32(Convert.ToSingle(_cMaxTemp) / _colors.Count * (xf - X));
 
-                RenderMarker(g, xf, Y, t.ToString());
+                RenderMarker(g, xf, Y + cHeight, t.ToString());
             }
         }
 
@@ -135,6 +134,17 @@ namespace WinHeatConductivity
             {
                 g.DrawLine(new Pen(colors[index]), xCur, pictureBox1.Height / 2 + cYShift, xCur, pictureBox1.Height / 2 + cYShift + 24);
                 xCur++;
+            }
+
+            int markerCount = 8;
+
+            for (int i = 0; i < markerCount; i++)
+            {
+                float x = Convert.ToSingle(_cL) / (markerCount - 1) * i - 1;
+                double u = _heatConductivity.HeatConductivity(x, _curTime);
+                float xWin = Convert.ToSingle(KernelLength * i) / (markerCount - 1) + (pictureBox1.Width - KernelLength) / 2;
+
+                RenderMarker(g, xWin, pictureBox1.Height / 2 + cYShift + 24, Convert.ToInt32(u).ToString());
             }
         }
 
@@ -225,6 +235,13 @@ namespace WinHeatConductivity
                 _timer.Start();
                 btnPlay.Text = "Стоп";
             }
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            _curTime = 0.001;
+            ComputeColorIndexes();
+            Render();
         }
     }
 }
