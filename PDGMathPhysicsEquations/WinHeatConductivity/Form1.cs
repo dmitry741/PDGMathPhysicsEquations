@@ -31,7 +31,7 @@ namespace WinHeatConductivity
 
         const double _cL = 2.0;
         const double _cMaxTemp = 500;
-        const double _cTimeStep = 0.025;
+        const double _cTimeStep = 0.01;
 
         #endregion
 
@@ -39,7 +39,7 @@ namespace WinHeatConductivity
 
         double Plateau(double x)
         {
-            const double cPlateau = _cL / 10;
+            const double cPlateau = _cL / 5;
             double r = 0;
 
             if (-cPlateau < x && x < cPlateau)
@@ -126,11 +126,12 @@ namespace WinHeatConductivity
 
         void RenderKernel(Graphics g, List<Color> colors, int[] indexes)
         {
+            const int cYShift = 20;
             int xCur = (pictureBox1.Width - KernelLengtр) / 2;
 
             foreach (int index in indexes)
             {
-                g.DrawLine(new Pen(colors[index]), xCur, pictureBox1.Height / 2, xCur, pictureBox1.Height / 2 + 24);
+                g.DrawLine(new Pen(colors[index]), xCur, pictureBox1.Height / 2 + cYShift, xCur, pictureBox1.Height / 2 + cYShift + 24);
                 xCur++;
             }
         }
@@ -207,6 +208,20 @@ namespace WinHeatConductivity
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             Render();
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e)
+        {
+            if (_timer.Enabled)
+            {
+                _timer.Stop();
+                btnPlay.Text = "Старт";
+            }
+            else
+            {
+                _timer.Start();
+                btnPlay.Text = "Стоп";
+            }
         }
     }
 }
