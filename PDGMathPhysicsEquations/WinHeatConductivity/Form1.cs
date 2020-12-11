@@ -29,7 +29,7 @@ namespace WinHeatConductivity
         HeatConductivityEquation _heatConductivity;
 
         const double _cL = 2.0;
-        const double _cMacTemp = 500;
+        const double _cMaxTemp = 500;
         const double _cTimeStep = 0.025;
 
         #endregion
@@ -42,7 +42,7 @@ namespace WinHeatConductivity
             double r = 0;
 
             if (-cPlateau < x && x < cPlateau)
-                r = _cMacTemp;
+                r = _cMaxTemp;
 
             return r;
         }
@@ -82,6 +82,32 @@ namespace WinHeatConductivity
             // TODO
         }
 
+        void RenderLegend(Graphics g, int X, int Y)
+        {
+            const int cHeight = 16;
+            int xCur = X;
+
+            foreach (Color color in _colors)
+            {
+                g.DrawLine(new Pen(color), xCur, Y, xCur, Y + cHeight);
+                xCur++;
+            }
+
+            int markerCount = 4;
+            Font font = new Font("Arial", 8.0f, FontStyle.Regular);            
+
+            for (int i = 0; i < markerCount; i++)
+            {
+                float xf = Convert.ToSingle(_colors.Count * i) / (markerCount - 1) + X;
+                g.DrawLine(Pens.Black, xf, Y + cHeight + 4, xf, Y + cHeight + 12);
+
+                int  t = Convert.ToInt32(Convert.ToSingle(_cMaxTemp) / _colors.Count * (xf - X));
+                SizeF szf = g.MeasureString(t.ToString(), font);
+
+                g.DrawString(t.ToString(), font, Brushes.Black, xf - szf.Width / 2, Y + cHeight + 14);
+            }
+        }
+
         void RenderKernel(Graphics g)
         {
             // TODO:
@@ -99,6 +125,9 @@ namespace WinHeatConductivity
             // очищаем контекст.
             g.Clear(Color.White);
 
+            // отрисвока легенды
+            RenderLegend(g, (pictureBox1.Width - _colors.Count) / 2, 20);
+
             // отрисовка стержня
             RenderKernel(g);
 
@@ -112,7 +141,7 @@ namespace WinHeatConductivity
         {
             FillFunctionPropertiesCombo();
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            _curTime = 0;
+            _curTime = 0.001;
 
             // палитра цветов
             _colors = CreateHotPalette();

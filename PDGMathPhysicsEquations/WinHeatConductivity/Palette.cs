@@ -40,7 +40,7 @@ namespace WinHeatConductivity
 
         public void CreatePalette()
         {
-            const int cGradientCount = 8;
+            const int cGradientCount = 100;
             _palette.Clear();
 
             for (int i = 0; i < _baseColors.Count - 1; i++)
