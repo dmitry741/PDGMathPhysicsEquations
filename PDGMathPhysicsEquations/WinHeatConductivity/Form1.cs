@@ -32,6 +32,8 @@ namespace WinHeatConductivity
         const double _cL = 2.0;
         const double _cMaxTemp = 500;
         const double _cTimeStep = 0.005;
+        const double _cStartTime = 0.001;
+        const double _cHeatConductivity = 0.25;
 
         #endregion
 
@@ -48,6 +50,19 @@ namespace WinHeatConductivity
             return r;
         }
 
+        double TwoTriangles(double x)
+        {
+            const double cPie = _cL / 20;
+            double r = 0;
+
+            if (-7 * cPie < x && x < -3 * cPie)
+                r = _cMaxTemp;
+            else if (3 * cPie < x && x < 7 * cPie)
+                r = _cMaxTemp;
+
+            return r;
+        }
+
         void FillFunctionPropertiesCombo()
         {
             FunctionProperties functionProperties;
@@ -55,6 +70,9 @@ namespace WinHeatConductivity
             comboBox1.BeginUpdate();
 
             functionProperties = new FunctionProperties(Plateau, -_cL / 2, _cL / 2, "Плато");
+            comboBox1.Items.Add(functionProperties);
+
+            functionProperties = new FunctionProperties(TwoTriangles, -_cL / 2, _cL / 2, "Два плато");
             comboBox1.Items.Add(functionProperties);
 
             comboBox1.SelectedIndex = 0;
@@ -176,13 +194,13 @@ namespace WinHeatConductivity
         {
             FillFunctionPropertiesCombo();
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
-            _curTime = 0.001;
+            _curTime = _cStartTime;
 
             // палитра цветов
             _colors = CreateHotPalette();
 
             FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
-            _heatConductivity = new HeatConductivityEquation(fp.f, fp.Low, fp.High, 0.25);
+            _heatConductivity = new HeatConductivityEquation(fp.f, fp.Low, fp.High, _cHeatConductivity);
             _indexes = new int[KernelLength];
             ComputeColorIndexes();
 
@@ -239,8 +257,22 @@ namespace WinHeatConductivity
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            _curTime = 0.001;
+            _curTime = _cStartTime;
             ComputeColorIndexes();
+            Render();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_heatConductivity == null)
+                return;
+
+            _curTime = _cStartTime;
+            FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
+
+            _heatConductivity = new HeatConductivityEquation(fp.f, fp.Low, fp.High, _cHeatConductivity);
+            ComputeColorIndexes();
+
             Render();
         }
     }
