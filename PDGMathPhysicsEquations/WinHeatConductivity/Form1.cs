@@ -51,7 +51,7 @@ namespace WinHeatConductivity
             return r;
         }
 
-        double TwoTriangles(double x)
+        double TwoPlateaus(double x)
         {
             const double cPie = _cL / 20;
             double r = 0;
@@ -73,7 +73,7 @@ namespace WinHeatConductivity
             functionProperties = new FunctionProperties(Plateau, -_cL / 2, _cL / 2, "Плато");
             comboBox1.Items.Add(functionProperties);
 
-            functionProperties = new FunctionProperties(TwoTriangles, -_cL / 2, _cL / 2, "Два плато");
+            functionProperties = new FunctionProperties(TwoPlateaus, -_cL / 2, _cL / 2, "Два плато");
             comboBox1.Items.Add(functionProperties);
 
             comboBox1.SelectedIndex = 0;
@@ -136,7 +136,7 @@ namespace WinHeatConductivity
                 xCur++;
             }
 
-            int markerCount = 4;            
+            const int markerCount = 4;            
 
             for (int i = 0; i < markerCount; i++)
             {
@@ -158,7 +158,7 @@ namespace WinHeatConductivity
                 xCur++;
             }
 
-            int markerCount = 8;
+            const int markerCount = 8;
 
             for (int i = 0; i < markerCount; i++)
             {
