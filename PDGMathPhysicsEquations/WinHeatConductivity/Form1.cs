@@ -26,6 +26,7 @@ namespace WinHeatConductivity
         double _curTime;
         List<Color> _colors;
         int[] _indexes;
+        bool _bLegendVisible = false;
 
         HeatConductivityEquation _heatConductivity;
 
@@ -123,6 +124,9 @@ namespace WinHeatConductivity
 
         void RenderLegend(Graphics g, int X, int Y)
         {
+            if (!_bLegendVisible)
+                return;
+
             const int cHeight = 16;
             int xCur = X;
 
@@ -273,6 +277,12 @@ namespace WinHeatConductivity
             _heatConductivity = new HeatConductivityEquation(fp.f, fp.Low, fp.High, _cHeatConductivity);
             ComputeColorIndexes();
 
+            Render();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            _bLegendVisible = checkBox1.Checked;
             Render();
         }
     }
