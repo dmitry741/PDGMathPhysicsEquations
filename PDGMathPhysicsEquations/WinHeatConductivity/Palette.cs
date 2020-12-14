@@ -8,12 +8,11 @@ using System.Threading.Tasks;
 namespace WinHeatConductivity
 {
     /// <summary>
-    /// Класс представляющий набор цветов для рисования фрактала.
+    /// Класс представляющий набор цветов.
     /// </summary>
     public class Palette
     {
         private readonly List<Color> _baseColors = new List<Color>();
-        private readonly List<Color> _palette = new List<Color>();
 
         #region === private ===
 
@@ -38,27 +37,27 @@ namespace WinHeatConductivity
 
         #endregion
 
-        public void CreatePalette()
+        public List<Color> CreatePalette()
         {
+            List<Color> palette = new List<Color>();
             const int cGradientCount = 100;
-            _palette.Clear();
 
             for (int i = 0; i < _baseColors.Count - 1; i++)
             {
                 for (int j = 0; j < cGradientCount; j++)
                 {
-                    _palette.Add(GetGradientColor(j, _baseColors[i], _baseColors[i + 1], cGradientCount));
+                    palette.Add(GetGradientColor(j, _baseColors[i], _baseColors[i + 1], cGradientCount));
                 }
             }
 
-            _palette.Add(_baseColors[_baseColors.Count - 1]);
+            palette.Add(_baseColors[_baseColors.Count - 1]);
+
+            return palette;
         }
 
         public void AddBaseColor(Color color)
         {
             _baseColors.Add(color);
         }
-
-        public List<Color> Colors => _palette;
     }
 }

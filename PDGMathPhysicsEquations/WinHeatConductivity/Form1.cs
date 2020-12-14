@@ -82,18 +82,16 @@ namespace WinHeatConductivity
 
         int KernelLength => pictureBox1.Width - 80;
 
-        List<Color> CreateHotPalette()
+        List<Color> CreatePalette()
         {
             Palette palette = new Palette();
 
             palette.AddBaseColor(Color.Black);
             palette.AddBaseColor(Color.DarkRed);
             palette.AddBaseColor(Color.Red);
-            palette.AddBaseColor(Color.Yellow);
+            palette.AddBaseColor(Color.Yellow);            
 
-            palette.CreatePalette();
-
-            return palette.Colors;
+            return palette.CreatePalette();
         }
 
         void Next()
@@ -201,7 +199,7 @@ namespace WinHeatConductivity
             _curTime = _cStartTime;
 
             // палитра цветов
-            _colors = CreateHotPalette();
+            _colors = CreatePalette();
 
             FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
             _heatConductivity = new HeatConductivityEquation(fp.f, fp.Low, fp.High, _cHeatConductivity);
