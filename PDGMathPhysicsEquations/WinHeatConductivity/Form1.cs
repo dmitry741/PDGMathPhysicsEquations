@@ -32,9 +32,10 @@ namespace WinHeatConductivity
 
         const double _cL = 2.0;
         const double _cMaxTemp = 500;
-        const double _cTimeStep = 0.005;
-        const double _cStartTime = 0.001;
-        const double _cHeatConductivity = 0.25;
+        const double _cTimerInterval = 250;
+        const double _cTimeStep = _cTimerInterval / 1000;
+        const double _cStartTime = 0.05;
+        const double _cHeatConductivity = 0.0035338;
 
         #endregion
 
@@ -80,6 +81,21 @@ namespace WinHeatConductivity
             comboBox1.EndUpdate();
         }
 
+        void FillMaterialsCombo()
+        {
+            List<MaterialProperties> lstMaterial = new List<MaterialProperties>
+            {
+                new MaterialProperties { Name = "Алюминий", A = 0.0098704 },
+                new MaterialProperties { Name = "Золото", A = 0.0112581 },
+                new MaterialProperties { Name = "Сталь", A = 0.0035338 }
+            };
+
+            cmbMaterials.BeginUpdate();
+            cmbMaterials.Items.AddRange(lstMaterial.ToArray());
+            cmbMaterials.SelectedIndex = 0;
+            cmbMaterials.EndUpdate();
+        }
+
         int KernelLength => pictureBox1.Width - 80;
 
         List<Color> CreatePalette()
@@ -107,7 +123,15 @@ namespace WinHeatConductivity
                 double x = _cL / (_indexes.Length - 1) * i - 1;
                 double u = _heatConductivity.HeatConductivity(x, _curTime);
 
-                _indexes[i] = Convert.ToInt32((_colors.Count - 1) / _cMaxTemp * u);
+                int index = Convert.ToInt32((_colors.Count - 1) / _cMaxTemp * u);
+
+                if (index >= _colors.Count)
+                    index = _colors.Count - 1;
+
+                if (index < 0)
+                    index = 0;
+
+                _indexes[i] = index;
             }
         }
 
@@ -206,11 +230,14 @@ namespace WinHeatConductivity
             _indexes = new int[KernelLength];
             ComputeColorIndexes();
 
+            // материалы
+            FillMaterialsCombo();
+
             // создаем таймер
             _timer = new Timer
             {
-                Interval = 500,
-                Enabled = false
+                Interval = Convert.ToInt32(_cTimerInterval),
+                Enabled = false,
             };
             _timer.Tick += Timer_Tick;
         }

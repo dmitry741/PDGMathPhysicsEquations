@@ -54,7 +54,7 @@ namespace MathPhysicsEq
             _x = x;
             _t = t;
 
-            return m * Integral.Get(UnderIntegralExpression, _low, _high);
+            return m * Integral.Get(UnderIntegralExpression, _low, _high, 800);
         }
     }
 }
