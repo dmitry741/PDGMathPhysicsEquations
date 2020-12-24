@@ -35,7 +35,6 @@ namespace WinHeatConductivity
         const double _cTimerInterval = 250;
         const double _cTimeStep = _cTimerInterval / 1000;
         const double _cStartTime = 0.05;
-        const double _cHeatConductivity = 0.0035338;
 
         #endregion
 
@@ -67,16 +66,14 @@ namespace WinHeatConductivity
 
         void FillFunctionPropertiesCombo()
         {
-            FunctionProperties functionProperties;
+            List<FunctionProperties> lstFunctionProperties = new List<FunctionProperties>
+            {
+                new FunctionProperties(Plateau, -_cL / 2, _cL / 2, "Плато"),
+                new FunctionProperties(TwoPlateaus, -_cL / 2, _cL / 2, "Плато")
+            };
 
             comboBox1.BeginUpdate();
-
-            functionProperties = new FunctionProperties(Plateau, -_cL / 2, _cL / 2, "Плато");
-            comboBox1.Items.Add(functionProperties);
-
-            functionProperties = new FunctionProperties(TwoPlateaus, -_cL / 2, _cL / 2, "Два плато");
-            comboBox1.Items.Add(functionProperties);
-
+            comboBox1.Items.AddRange(lstFunctionProperties.ToArray());
             comboBox1.SelectedIndex = 0;
             comboBox1.EndUpdate();
         }
@@ -218,17 +215,15 @@ namespace WinHeatConductivity
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            FillFunctionPropertiesCombo();
             _bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
             _curTime = _cStartTime;
 
+            // вид функции f(x)
+            FillFunctionPropertiesCombo();
+
             // палитра цветов
             _colors = CreatePalette();
-
-            FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
-            _heatConductivity = new HeatConductivityEquation(fp.f, fp.Low, fp.High, _cHeatConductivity);
             _indexes = new int[KernelLength];
-            ComputeColorIndexes();
 
             // материалы
             FillMaterialsCombo();
@@ -297,17 +292,30 @@ namespace WinHeatConductivity
                 return;
 
             _curTime = _cStartTime;
+
             FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
+            MaterialProperties mp = (MaterialProperties)cmbMaterials.SelectedItem;
+            _heatConductivity = new HeatConductivityEquation(fp.f, fp.Low, fp.High, mp.A);
 
-            _heatConductivity = new HeatConductivityEquation(fp.f, fp.Low, fp.High, _cHeatConductivity);
             ComputeColorIndexes();
-
             Render();
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             _bLegendVisible = checkBox1.Checked;
+            Render();
+        }
+
+        private void cmbMaterials_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _curTime = _cStartTime;
+
+            FunctionProperties fp = (FunctionProperties)comboBox1.SelectedItem;
+            MaterialProperties mp = (MaterialProperties)cmbMaterials.SelectedItem;
+            _heatConductivity = new HeatConductivityEquation(fp.f, fp.Low, fp.High, mp.A);
+
+            ComputeColorIndexes();
             Render();
         }
     }

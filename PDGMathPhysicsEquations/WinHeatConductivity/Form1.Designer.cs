@@ -118,6 +118,7 @@
             this.cmbMaterials.Name = "cmbMaterials";
             this.cmbMaterials.Size = new System.Drawing.Size(184, 21);
             this.cmbMaterials.TabIndex = 12;
+            this.cmbMaterials.SelectedIndexChanged += new System.EventHandler(this.cmbMaterials_SelectedIndexChanged);
             // 
             // label1
             // 
