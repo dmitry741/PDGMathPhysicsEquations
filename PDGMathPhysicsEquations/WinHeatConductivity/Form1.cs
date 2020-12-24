@@ -69,7 +69,7 @@ namespace WinHeatConductivity
             List<FunctionProperties> lstFunctionProperties = new List<FunctionProperties>
             {
                 new FunctionProperties(Plateau, -_cL / 2, _cL / 2, "Плато"),
-                new FunctionProperties(TwoPlateaus, -_cL / 2, _cL / 2, "Плато")
+                new FunctionProperties(TwoPlateaus, -_cL / 2, _cL / 2, "Два плато")
             };
 
             comboBox1.BeginUpdate();
