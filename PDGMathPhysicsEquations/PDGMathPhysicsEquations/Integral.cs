@@ -28,7 +28,7 @@ namespace PDGMathPhysicsEquations
         /// <returns>Значение интеграла.</returns>
         public static double Get(Function f, double a, double b, int split = 100)
         {
-            double N = (b - a) * split;
+            int N = Convert.ToInt32((b - a) * split);
             double S = 0;
             double dx = (b - a) / N;
 
