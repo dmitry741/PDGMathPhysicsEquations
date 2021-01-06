@@ -8,7 +8,7 @@ using PDGMathPhysicsEquations;
 namespace MathPhysicsEq
 {
     /// <summary>
-    /// Класс-решение для уравнения теплопроводности.
+    /// Класс - решение для уравнения теплопроводности.
     /// </summary>
     public class HeatConductivityEquation
     {
