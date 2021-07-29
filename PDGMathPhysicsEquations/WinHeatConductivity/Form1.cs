@@ -10,6 +10,11 @@ using System.Windows.Forms;
 using MathPhysicsEq;
 using PDGMathPhysicsEquations;
 
+/* Урок "Моделирование движения волны и распространения тепла в стержне."
+ * Все уроки на http://digitalmodels.ru
+ * 
+ */
+
 namespace WinHeatConductivity
 {
     public partial class Form1 : Form
