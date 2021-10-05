@@ -122,7 +122,7 @@ namespace WinHeatConductivity
         {
             for (int i = 0; i < _indexes.Length; i++)
             {
-                double x = _cL / (_indexes.Length - 1) * i - 1;
+                double x = _cL / (_indexes.Length - 1) * i - _cL / 2;
                 double u = _heatConductivity.HeatConductivity(x, _curTime);
 
                 int index = Convert.ToInt32((_colors.Count - 1) / _cMaxTemp * u);
@@ -186,7 +186,7 @@ namespace WinHeatConductivity
 
             for (int i = 0; i < markerCount; i++)
             {
-                float x = Convert.ToSingle(_cL) / (markerCount - 1) * i - 1;
+                float x = Convert.ToSingle(_cL) / (markerCount - 1) * i - Convert.ToSingle(_cL / 2);
                 double u = _heatConductivity.HeatConductivity(x, _curTime);
                 float xWin = Convert.ToSingle(KernelLength * i) / (markerCount - 1) + (pictureBox1.Width - KernelLength) / 2;
 
